@@ -3,6 +3,7 @@ import type { Question } from "../../src/domain/forum/enterprise/entities/questi
 
 
 export class InMemoryQuestionsRepository implements QuestionsRespository {
+
   public items: Question[] = []
   async create(question: Question) {
     this.items.push(question)
@@ -13,5 +14,15 @@ export class InMemoryQuestionsRepository implements QuestionsRespository {
       return null
     }
     return question
+  }
+    async findById(id: string) {
+     const question = this.items.find((item) => item.id.toString() === id)
+    if (!question) {
+      return null
+    }
+    return question
+  }
+  async delete(question: Question) {
+    this.items.splice(this.items.indexOf(question), 1)
   }
 }
