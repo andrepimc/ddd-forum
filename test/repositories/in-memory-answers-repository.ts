@@ -3,7 +3,18 @@ import type { Answer } from "../../src/domain/forum/enterprise/entities/answer"
 
 export class InMemoryAnswersRepository implements AnswersRespository {
   public items: Answer[] = []
+
   async create(answer: Answer) {
     this.items.push(answer)
+  }
+  async findById(id: string) {
+    const answer = this.items.find((item) => item.id.toString() === id)
+    if (!answer) {
+      return null
+    }
+    return answer
+  }
+  async delete(answer: Answer) {
+    this.items.splice(this.items.indexOf(answer), 1)
   }
 }
