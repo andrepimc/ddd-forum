@@ -1,4 +1,4 @@
-import { AnswersRespository } from "../repositories/answers-repository"
+import { AnswersRepository } from "../repositories/answers-repository"
 
 interface DeleteAnswerUseCaseRequest {
   id: string
@@ -6,7 +6,7 @@ interface DeleteAnswerUseCaseRequest {
 }
 
 export class DeleteAnswerUseCase {
-  constructor(private answersRepository: AnswersRespository) {}
+  constructor(private answersRepository: AnswersRepository) {}
   async execute({ id, authorId }: DeleteAnswerUseCaseRequest) {
     const answer = await this.answersRepository.findById(id)
 

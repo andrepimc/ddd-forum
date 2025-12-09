@@ -1,7 +1,7 @@
-import type { AnswersRespository } from "../../src/domain/forum/application/repositories/answers-repository"
+import type { AnswersRepository } from "../../src/domain/forum/application/repositories/answers-repository"
 import type { Answer } from "../../src/domain/forum/enterprise/entities/answer"
 
-export class InMemoryAnswersRepository implements AnswersRespository {
+export class InMemoryAnswersRepository implements AnswersRepository {
   public items: Answer[] = []
 
   async create(answer: Answer) {

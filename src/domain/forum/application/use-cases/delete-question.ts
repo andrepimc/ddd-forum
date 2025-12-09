@@ -1,4 +1,4 @@
-import type { QuestionsRespository } from "../repositories/questions-repository"
+import type { QuestionsRepository } from "../repositories/questions-repository"
 
 interface DeleteQuestionUseCaseRequest {
   id: string
@@ -6,7 +6,7 @@ interface DeleteQuestionUseCaseRequest {
 }
 
 export class DeleteQuestionUseCase {
-  constructor(private questionsRepository: QuestionsRespository) {}
+  constructor(private questionsRepository: QuestionsRepository) {}
   async execute({ id, authorId }: DeleteQuestionUseCaseRequest) {
     const question = await this.questionsRepository.findById(id)
 
