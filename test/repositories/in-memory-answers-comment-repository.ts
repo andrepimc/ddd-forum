@@ -24,4 +24,8 @@ export class InMemoryAnswersCommentsRepository
     )
     this.items.splice(itemIndex, 1)
   }
+
+  async listAll(answerId: string): Promise<AnswerComment[]> {
+    return this.items.filter((item) => item.answerId.toString() === answerId)
+  }
 }
