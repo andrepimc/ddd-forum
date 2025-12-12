@@ -5,6 +5,7 @@ import { UniqueEntityId } from "../../../../core/entities/unique-entity-id"
 import { DeleteCommentAnswerUseCase } from "./delete-comment-answer"
 import { InMemoryAnswersCommentsRepository } from "../../../../../test/repositories/in-memory-answers-comment-repository"
 import { makeAnswerComment } from "../../../../../test/factories/make-comment-answer"
+import { Left } from "../../../../core/either"
 
 let inMemoryAnswersCommentsRepository: InMemoryAnswersCommentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
@@ -50,6 +51,6 @@ describe("delete a comment on an answer", () => {
         authorId: "user-x",
         answerCommentId: answerComment.id.toString(),
       })
-    }).rejects.toBeInstanceOf(Error)
+    }).toBeInstanceOf(Left)
   })
 })
