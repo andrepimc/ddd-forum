@@ -24,4 +24,10 @@ export class InMemoryQuestionsCommentsRepository
     )
     this.items.splice(itemIndex, 1)
   }
+
+  async listAll(questionId: string): Promise<QuestionComment[]> {
+    return this.items.filter(
+      (item) => item.questionId.toString() === questionId
+    )
+  }
 }

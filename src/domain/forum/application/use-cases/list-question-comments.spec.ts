@@ -7,52 +7,39 @@ import { InMemoryQuestionsCommentsRepository } from "../../../../../test/reposit
 import { CommentOnQuestionUseCase } from "./comment-on-question"
 import { makeQuestionComment } from "../../../../../test/factories/make-comment-question"
 import { DeleteCommentQuestionUseCase } from "./delete-comment-question"
+import { ListQuestionCommentsUseCase } from "./list-question-comments"
 
 let inMemoryQuestionsCommentsRepository: InMemoryQuestionsCommentsRepository
 let inMemoryQuestionsRepository: InMemoryQuestionsRepository
-let sut: DeleteCommentQuestionUseCase
+let sut: ListQuestionCommentsUseCase
 
-describe("delete a comment on a question", () => {
+describe("list comments on a question", () => {
   beforeEach(() => {
     inMemoryQuestionsCommentsRepository =
       new InMemoryQuestionsCommentsRepository()
     inMemoryQuestionsRepository = new InMemoryQuestionsRepository()
-    sut = new DeleteCommentQuestionUseCase(inMemoryQuestionsCommentsRepository)
+    sut = new ListQuestionCommentsUseCase(inMemoryQuestionsCommentsRepository)
   })
-  it("should delete a question comment", async () => {
+  it("should list all question comments", async () => {
     const newQuestion = makeQuestion()
     inMemoryQuestionsRepository.create(newQuestion)
 
-    const questionComment = makeQuestionComment({
+    const questionComment1 = makeQuestionComment({
       questionId: newQuestion.id,
       authorId: new UniqueEntityId("user-1"),
     })
+    const questionComment2 = makeQuestionComment({
+      questionId: newQuestion.id,
+      authorId: new UniqueEntityId("user-2"),
+    })
 
-    inMemoryQuestionsCommentsRepository.create(questionComment)
+    inMemoryQuestionsCommentsRepository.create(questionComment1)
+    inMemoryQuestionsCommentsRepository.create(questionComment2)
 
     await sut.execute({
-      authorId: "user-1",
-      questionCommentId: questionComment.id.toString(),
+      questionId: newQuestion.id.toString(),
     })
 
-    expect(inMemoryQuestionsCommentsRepository.items).toHaveLength(0)
-  })
-  it("should not be able to delete a question comment not owned", async () => {
-    const newQuestion = makeQuestion()
-    inMemoryQuestionsRepository.create(newQuestion)
-
-    const questionComment = makeQuestionComment({
-      questionId: newQuestion.id,
-      authorId: new UniqueEntityId("user-1"),
-    })
-
-    inMemoryQuestionsCommentsRepository.create(questionComment)
-
-    expect(async () => {
-      return await sut.execute({
-        authorId: "user-x",
-        questionCommentId: questionComment.id.toString(),
-      })
-    }).rejects.toBeInstanceOf(Error)
+    expect(inMemoryQuestionsCommentsRepository.items).toHaveLength(2)
   })
 })

@@ -34,7 +34,7 @@ describe("delete a comment on an answer", () => {
 
     expect(inMemoryAnswersCommentsRepository.items).toHaveLength(0)
   })
-  it.skip("should not be able to delete an answer comment not owned", async () => {
+  it("should not be able to delete an answer comment not owned", async () => {
     const newAnswer = makeAnswer()
     inMemoryAnswersRepository.create(newAnswer)
 

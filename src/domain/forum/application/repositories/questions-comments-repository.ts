@@ -5,4 +5,5 @@ export interface QuestionsCommentsRepository {
   findById(id: string): Promise<QuestionComment | null>
   delete(questionComment: QuestionComment): Promise<void>
   create(questionComment: QuestionComment): Promise<void>
+  listAll(questionId: string): Promise<QuestionComment[]>
 }

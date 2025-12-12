@@ -37,7 +37,7 @@ describe("comment on a answer", () => {
       "new comment"
     )
   })
-  it.skip("should not be able to create a comment in a inexistent answer", async () => {
+  it("should not be able to create a comment in a inexistent answer", async () => {
     const newAnswer = makeAnswer(
       {
         authorId: new UniqueEntityId("user-1"),
