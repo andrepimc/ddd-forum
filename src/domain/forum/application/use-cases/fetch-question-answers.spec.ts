@@ -40,9 +40,9 @@ describe("Find many recent questions with pagination", () => {
     inMemoryAnswersRepository.create(answer1ForQuestion)
     inMemoryAnswersRepository.create(answer2ForQuestion)
 
-    const { answers } = await sut.execute({ questionId: "question-1", page: 1 })
+    const result = await sut.execute({ questionId: "question-1", page: 1 })
 
-    expect(answers).toEqual([
+    expect(result.value?.answers).toEqual([
       expect.objectContaining({ createdAt: answer2ForQuestion.createdAt }),
       expect.objectContaining({ createdAt: answer1ForQuestion.createdAt }),
     ])
@@ -61,8 +61,8 @@ describe("Find many recent questions with pagination", () => {
       inMemoryAnswersRepository.create(newAnswer)
     }
 
-    const { answers } = await sut.execute({ questionId: "question-1", page: 2 })
+    const result = await sut.execute({ questionId: "question-1", page: 2 })
 
-    expect(answers).toHaveLength(2)
+    expect(result.value?.answers).toHaveLength(2)
   })
 })

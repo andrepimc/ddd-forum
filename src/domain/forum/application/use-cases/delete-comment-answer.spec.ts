@@ -6,6 +6,7 @@ import { DeleteCommentAnswerUseCase } from "./delete-comment-answer"
 import { InMemoryAnswersCommentsRepository } from "../../../../../test/repositories/in-memory-answers-comment-repository"
 import { makeAnswerComment } from "../../../../../test/factories/make-comment-answer"
 import { Left } from "../../../../core/either"
+import { NotAllowedError } from "./errors/not-allowed-error"
 
 let inMemoryAnswersCommentsRepository: InMemoryAnswersCommentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
@@ -45,12 +46,11 @@ describe("delete a comment on an answer", () => {
     })
 
     inMemoryAnswersCommentsRepository.create(answerComment)
-
-    expect(async () => {
-      return await sut.execute({
-        authorId: "user-x",
-        answerCommentId: answerComment.id.toString(),
-      })
-    }).toBeInstanceOf(Left)
+    const result = await sut.execute({
+      authorId: "user-x",
+      answerCommentId: answerComment.id.toString(),
+    })
+    expect(result.isLeft()).toBeTruthy()
+    expect(result.value).toBeInstanceOf(NotAllowedError)
   })
 })

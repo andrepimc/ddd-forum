@@ -22,13 +22,16 @@ describe("Find many recent questions with pagination", () => {
     inMemoryQuestionsRepository.create(newQuestion)
     inMemoryQuestionsRepository.create(newQuestion2)
 
-    const { questions } = await sut.execute({ page: 1 })
+    const result = await sut.execute({ page: 1 })
 
-    expect(questions).toEqual([
+    expect(result.isRight()).toBeTruthy()
+
+    expect(result.value?.questions).toEqual([
       expect.objectContaining({ createdAt: newQuestion2.createdAt }),
       expect.objectContaining({ createdAt: newQuestion.createdAt }),
     ])
   })
+
   it("should return recent questions with pagination", async () => {
     for (let i = 1; i <= 22; i++) {
       const newQuestion = makeQuestion()
@@ -36,8 +39,8 @@ describe("Find many recent questions with pagination", () => {
       inMemoryQuestionsRepository.create(newQuestion)
     }
 
-    const { questions } = await sut.execute({ page: 2 })
+    const result = await sut.execute({ page: 2 })
 
-    expect(questions).toHaveLength(2)
+    expect(result.value?.questions).toHaveLength(2)
   })
 })

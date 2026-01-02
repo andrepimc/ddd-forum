@@ -1,4 +1,9 @@
+import { Q } from "@faker-js/faker/dist/airline-DF6RqYmq"
 import type { QuestionsRepository } from "../repositories/questions-repository"
+import { Question } from "../../enterprise/entities/question"
+import { ResourceNotFoundError } from "./errors/resource-not-found-error"
+import { Either, left, right } from "../../../../core/either"
+import { NotAllowedError } from "./errors/not-allowed-error"
 
 interface EditQuestionUseCaseRequest {
   id: string
@@ -7,17 +12,27 @@ interface EditQuestionUseCaseRequest {
   content: string
 }
 
+type EditQuestionUseCaseResponse = Either<
+  ResourceNotFoundError | NotAllowedError,
+  { question: Question }
+>
+
 export class EditQuestionUseCase {
   constructor(private questionsRepository: QuestionsRepository) {}
-  async execute({ id, authorId, title, content }: EditQuestionUseCaseRequest) {
+  async execute({
+    id,
+    authorId,
+    title,
+    content,
+  }: EditQuestionUseCaseRequest): Promise<EditQuestionUseCaseResponse> {
     const question = await this.questionsRepository.findById(id)
 
     if (!question) {
-      throw new Error("Question not found.")
+      return left(new ResourceNotFoundError())
     }
 
     if (question.authorId.toString() !== authorId) {
-      throw new Error("You are not allowed to delete this question.")
+      return left(new NotAllowedError())
     }
 
     question.title = title
@@ -25,6 +40,6 @@ export class EditQuestionUseCase {
 
     await this.questionsRepository.save(question)
 
-    return { question }
+    return right({ question })
   }
 }
