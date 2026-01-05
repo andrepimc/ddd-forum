@@ -2,18 +2,24 @@ import { expect, describe, beforeEach, it } from "vitest"
 import { InMemoryAnswersRepository } from "../../../../../test/repositories/in-memory-answers-repository"
 import { makeAnswer } from "../../../../../test/factories/make-answer"
 import { UniqueEntityId } from "../../../../core/entities/unique-entity-id"
-import { makeAnswerComment } from "../../../../../test/factories/make-comment-answer"
+import { makeAnswerComment } from "../../../../../test/factories/make-answer-comment"
 import { InMemoryAnswersCommentsRepository } from "../../../../../test/repositories/in-memory-answers-comment-repository"
 import { ListAnswerCommentsUseCase } from "./list-answer-comment"
+import { InMemoryAnswerAttachmentsRepository } from "../../../../../test/repositories/in-memory-answer-attachments-repository"
 
 let inMemoryAnswersCommentsRepository: InMemoryAnswersCommentsRepository
+let inMemoryAnswerAttachmentsRepository: InMemoryAnswerAttachmentsRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: ListAnswerCommentsUseCase
 
 describe("list comments on a answer", () => {
   beforeEach(() => {
     inMemoryAnswersCommentsRepository = new InMemoryAnswersCommentsRepository()
-    inMemoryAnswersRepository = new InMemoryAnswersRepository()
+    inMemoryAnswerAttachmentsRepository =
+      new InMemoryAnswerAttachmentsRepository()
+    inMemoryAnswersRepository = new InMemoryAnswersRepository(
+      inMemoryAnswerAttachmentsRepository
+    )
     sut = new ListAnswerCommentsUseCase(inMemoryAnswersCommentsRepository)
   })
   it("should list all answer comments", async () => {

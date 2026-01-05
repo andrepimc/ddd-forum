@@ -4,7 +4,7 @@ import { makeAnswer } from "../../../../../test/factories/make-answer"
 import { UniqueEntityId } from "../../../../core/entities/unique-entity-id"
 import { DeleteCommentAnswerUseCase } from "./delete-comment-answer"
 import { InMemoryAnswersCommentsRepository } from "../../../../../test/repositories/in-memory-answers-comment-repository"
-import { makeAnswerComment } from "../../../../../test/factories/make-comment-answer"
+import { makeAnswerComment } from "../../../../../test/factories/make-answer-comment"
 import { Left } from "../../../../core/either"
 import { NotAllowedError } from "./errors/not-allowed-error"
 

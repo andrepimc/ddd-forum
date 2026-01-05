@@ -5,7 +5,7 @@ import { UniqueEntityId } from "../../../../core/entities/unique-entity-id"
 import { makeAnswer } from "../../../../../test/factories/make-answer"
 import { InMemoryQuestionsCommentsRepository } from "../../../../../test/repositories/in-memory-questions-comments-repository"
 import { CommentOnQuestionUseCase } from "./comment-on-question"
-import { makeQuestionComment } from "../../../../../test/factories/make-comment-question"
+import { makeQuestionComment } from "../../../../../test/factories/make-question-comment"
 import { DeleteCommentQuestionUseCase } from "./delete-comment-question"
 import { ListQuestionCommentsUseCase } from "./list-question-comments"
 
